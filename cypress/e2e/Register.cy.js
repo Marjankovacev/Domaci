@@ -1,14 +1,14 @@
 describe("Successful registration", () => {
     it("Visit gallery app", () => {
-        cy.visit("https://gallery-app.vivifyideas.com/");
+        cy.visit("/");
         
     })
     it("click on register button", () => {
-        cy.visit("https://gallery-app.vivifyideas.com/");
+        cy.visit("/");
         cy.get('a[href="/register"]').click();
     })
     it("Fill register imputs", () => {
-        cy.visit("https://gallery-app.vivifyideas.com/register");
+        cy.visit("/register");
         cy.get("#first-name").type("Miroslav");
         cy.get("#last-name").type("Nenadovic");
         cy.get("#email").type("miroslavnenadovic@gmail.com");
