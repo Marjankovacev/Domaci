@@ -14,6 +14,9 @@ class createGalleryPage {
     get galleryImageInput() {
       return cy.get("input").last();
     }
+    get gallerytwoImageInput() {
+      return cy.get("input").eq(-1);
+    }
   
     get cancelButton() {
       return cy.get("button").last();
@@ -25,6 +28,9 @@ class createGalleryPage {
   
     get addImageButton() {
       return cy.get("button").eq(-3);
+    }
+    get errorMessageimageformat() {
+      return cy.get(".alert-danger");
     }
   
     get imageUrlInputWrapper() {
