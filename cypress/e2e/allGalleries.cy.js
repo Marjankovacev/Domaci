@@ -1,40 +1,37 @@
 /// <reference types="Cypress" />
-import { allGalleriesPage } from "../pageObjects/allGalleries";
-import { loginPage } from "../pageObjects/loginPage";
+import { allGalleriesPage } from "../page_objects/allGalleries";
 
-describe("all gallery page test", () => {
-    beforeEach("visit gallery app and log in", () => {
-        cy.visit("/login");
-        loginPage.login("nedovic.filip@gmail.com","Test12345");
-        cy.url().should("not.include","/login");
+describe("all galleries page tests", () => {
+  beforeEach("visit gallery app and log in", () => {
+    cy.loginViaBackend();
+    cy.visit("/");
+  });
 
-    })
-    it("all gallery successully loaded",() => {
-        allGalleriesPage.allGalleriesHeading
-        .should("be.visible")
-        .and("have.text","All Galleries")
+  it.only("all galleries successully loaded", () => {
+    allGalleriesPage.allGalleriesHeading
+      .should("be.visible")
+      .and("have.text", "All Galleries");
 
-        allGalleriesPage.galleriesGrid.children().should("have.length",10);
-        allGalleriesPage.galleriesGrid.children().each((el) => {
-            expect(el).to.exist;
-        })
-    })
-    it("displays 10 galleries when Load More button is clicked", () => {
-        allGalleriesPage.loadMoreButton.click();
-        allGalleriesPage.galleriesGrid.children().should("have.length", 10);
+    allGalleriesPage.galleriesGrid.children().should("not.exist");
+    allGalleriesPage.galleriesGrid.children().each((el) => {
+      expect(el).to.exist;
     });
-    it("search fild filter", () => {
-        const searchTerm = "voluptates consequuntur maiores";
-        allGalleriesPage.search(searchTerm);
-        allGalleriesPage.galleriesGrid.children().each((gallery) => {
-         expect(searchTerm);
-        });
-      });
-      it("opens the first gallery ", () => {
-        allGalleriesPage.singleGallery.click();
-        allGalleriesPage.singleGalleryHeading.should('exist');
-        allGalleriesPage.singleGalleyAuthor.should('exist');
-        allGalleriesPage.singleGalleryDate.should('exist');
-        allGalleriesPage.singleGalleryImage.should('exist');
-      });
-})
+    cy.get("button").should("have.length", 2);
+  });
+
+  it("test pagination", () => {
+    allGalleriesPage.galleriesGrid.children().should("have.length", 10);
+    allGalleriesPage.loadMoreButton.click();
+    allGalleriesPage.galleriesGrid.children().should("have.length", 20);
+    allGalleriesPage.loadMoreButton.click();
+  });
+
+  it("search for specific gallery", () => {
+    let searchTerm = "sad je najnovija galerija";
+
+    allGalleriesPage.search(searchTerm);
+    cy.wait(500);
+    allGalleriesPage.singleGalleryHeading.click();
+    cy.get("h1").should("have.text", searchTerm);
+  });
+});

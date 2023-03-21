@@ -46,6 +46,7 @@ describe ("Create gallery tests", () => {
         createGallerypage.galleryUpButton.click();
         createGallerypage.deleteGalleryButton.click()
         createGallerypage.submitButton.click();
+        
     })
     
     it("succesful create galery",()=>{
